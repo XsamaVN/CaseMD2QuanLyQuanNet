@@ -3,16 +3,11 @@ package controller;
 import models.Invoice;
 
 import models.User;
-import services.InvoiceManager;
-import services.PCManager;
-import services.ProductManager;
-import services.UserManager;
+import services.*;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
-import java.net.Socket;
+
 import java.time.Duration;
 
 import java.time.LocalTime;
@@ -33,14 +28,10 @@ public class MenuUser {
             System.out.println("⎟             CHỌN MÁY              ⎟");
             System.out.println("└———————————————————————————————————┘");
             pcManager.showAll();
-            System.out.println("Chọn 0 để tắt máy!!!");
             System.out.print("Chọn Id:  ");
             String choiceIdPC = word.nextLine();
-            if(Integer.parseInt(choiceIdPC) == 0){
-                break;
-            }
             if (ProductManager.isInteger(choiceIdPC)) {
-                if (pcManager.getPcList().size() > Integer.parseInt(choiceIdPC) && Integer.parseInt(choiceIdPC) >= 1) {
+                if (pcManager.getPcList().size() >= Integer.parseInt(choiceIdPC) && Integer.parseInt(choiceIdPC) >= 1) {
                     while (true) {
                         if (ProductManager.isInteger(choiceIdPC) && pcManager.checkUsed(Integer.parseInt(choiceIdPC))) {
                             System.out.println("┌———————————————————————————————————┐");
@@ -58,7 +49,8 @@ public class MenuUser {
 
                                         LocalTime startTime = LocalTime.now();
                                         Invoice invoice = new Invoice();
-                                        PCManager.setUsed(userCheck);
+                                        pcManager.getPcList().get((Integer.parseInt(choiceIdPC)-1)).setUser(userCheck);
+                                        PCManager.savePCFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/pc.csv", pcManager.getPcList());
                                         invoice.setUser(userCheck);
                                         invoice.setPcId(Integer.parseInt(choiceIdPC));
                                         invoice.setPcPrice(pcManager.getPcList().get(Integer.parseInt(choiceIdPC) - 1).getPricePC());
@@ -71,11 +63,13 @@ public class MenuUser {
                                             System.out.println("⎟2. Chat với anh Long.              ⎟");
                                             System.out.println("⎟0. Tắt máy.                        ⎟");
                                             System.out.println("└———————————————————————————————————┘");
+                                            System.out.println("Số tiền hiện có: " + userManager.getMoneyByName(user));
                                             System.out.println("Nhập lựa chọn :");
                                             choice = word.nextLine();
                                             switch (choice) {
                                                 case "1":
                                                     productManager.showAll();
+                                                    System.out.println("Số tiền hiện có: " + userManager.getMoneyByName(user));
                                                     System.out.println("Nhập vào id sản phẩm bạn muốn mua.");
                                                     int id = number.nextInt();
                                                     int index = -1;
@@ -110,30 +104,7 @@ public class MenuUser {
 
                                                     break;
                                                 case "2":
-                                                    try {
-                                                        Socket socket = new Socket("localhost", 3333);
-                                                        System.out.println("'Chat với anh Long'\n" +
-                                                                "(gõ 'bye' để thoát.)");
-                                                        DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-                                                        DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                                                        Scanner chatClient = new Scanner(System.in);
-                                                        while (true) {
-
-                                                            String str1 = chatClient.nextLine();
-                                                            dataOutputStream.writeUTF(str1);
-                                                            dataOutputStream.flush();
-                                                            if (str1.equals("bye")) {
-                                                                break;
-                                                            }
-                                                            String strHost = dataInputStream.readUTF();
-                                                            System.out.println("Anh Long says: " + strHost);
-                                                        }
-                                                        dataInputStream.close();
-                                                        dataOutputStream.close();
-                                                        socket.close();
-                                                    } catch (Exception e) {
-                                                        System.out.println("Sever đang bận. Thử lại sau nhé");
-                                                    }
+                                                    ChatServer.client();
                                                     break;
                                                 case "0":
                                                     LocalTime endTime = LocalTime.now();
@@ -148,12 +119,14 @@ public class MenuUser {
                                                     System.out.println("Sản phẩm đã mua: " + invoice.getBuyName() + ", số lượng: " + invoice.getBuyQuantity() + ", giá: " + invoice.getBuyPrice() + ", thành tiền: " + servicePrice);
                                                     System.out.println("Số tiền cần trả: " + (timeUsed * invoice.getPcPrice() + servicePrice));
                                                     if ((timeUsed * invoice.getPcPrice() + servicePrice) < invoice.getUser().getMoneyCharge()) {
+                                                        System.out.println("Số tiền còn lại: "+ (userManager.getMoneyByName(user) - (timeUsed * invoice.getPcPrice() + servicePrice)));
                                                         for (User u: userManager.getUserList()) {
                                                             if(u.getUserName().equals(invoice.getUser().getUserName())){
                                                                 u.setMoneyCharge(invoice.getUser().getMoneyCharge()-(timeUsed * invoice.getPcPrice() + servicePrice));
                                                             }
                                                         }
                                                         invoiceManager.addNew(invoice);
+                                                        invoice.setTotal(timeUsed * invoice.getPcPrice() + servicePrice);
                                                         InvoiceManager.saveInvoicetFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/invoice.csv", invoiceManager.getInvoiceList());
                                                         ProductManager.saveProductFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/product.csv", productManager.getProductList());
                                                         UserManager.saveUserFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/user.csv", userManager.getUserList());

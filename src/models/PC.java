@@ -9,6 +9,7 @@ public class PC {
         this.pricePC = pricePC;
     }
 
+
     public int getIdPC() {
         return idPC;
     }
@@ -38,7 +39,7 @@ public class PC {
         return "PC{" +
                 " Id = " + idPC +
                 ", Price = " + pricePC +
-                ", User = " + user +
+                ", User = " + user+
                 '}';
     }
 }

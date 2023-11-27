@@ -3,16 +3,9 @@ package controller;
 import models.PC;
 import models.Product;
 import models.User;
-import services.InvoiceManager;
-import services.PCManager;
-import services.ProductManager;
-import services.UserManager;
+import services.*;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.Scanner;
 
 
@@ -206,7 +199,8 @@ public class MenuAdmin {
                                 System.out.println("⎟———————————————————————————————————⎟");
                                 System.out.println("⎟1. Danh sách hóa đơn.              ⎟");
                                 System.out.println("⎟2. Xóa hóa đơn.                    ⎟");
-                                System.out.println("⎟3. Tìm kiếm sản phẩm.              ⎟");
+                                System.out.println("⎟3. Tìm kiếm hóa đơn.               ⎟");
+                                System.out.println("⎟4. Tổng doanh thu.                 ⎟");
                                 System.out.println("⎟0. Quay lại.                       ⎟");
                                 System.out.println("└———————————————————————————————————┘");
                                 System.out.println("Nhập lựa chọn :");
@@ -226,6 +220,10 @@ public class MenuAdmin {
                                         int idInvoiceFind = number.nextInt();
                                         invoiceManager.findById(idInvoiceFind);
                                         break;
+                                    case "4":
+                                        invoiceManager.showAll();
+                                        System.out.println("Tổng doanh thu:  " + invoiceManager.totalRevenue());
+                                        break;
                                     case "0":
                                         break;
                                     default:
@@ -235,30 +233,7 @@ public class MenuAdmin {
                         }
                         break;
                     case "5":
-                        System.out.println("Chat với khách hàng!!!");
-                        System.out.println("----------------------");
-                        ServerSocket serverSocket = new ServerSocket(3333);
-                        Socket socket = serverSocket.accept();
-                        DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-                        DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                        Scanner chat = new Scanner(System.in);
-
-                        while (true) {
-                            dataOutputStream.flush();
-                            String str = dataInputStream.readUTF();
-                            dataOutputStream.writeUTF(str);
-                            if (str.equals(" bye")) {
-                                break;
-                            }
-                            System.out.println("Khách says: " + str);
-                            String strClient = chat.nextLine();
-                            dataOutputStream.writeUTF(strClient);
-                            dataOutputStream.flush();
-                        }
-                        dataInputStream.close();
-                        dataOutputStream.close();
-                        socket.close();
-                        serverSocket.close();
+                        ChatServer.sever();
                         break;
                     case "0":
                         break;

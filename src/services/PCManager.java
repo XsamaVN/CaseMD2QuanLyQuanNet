@@ -9,12 +9,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class PCManager implements IQLQN<PC> {
-    List<PC> pcList;
+    List<PC> pcList = new ArrayList<>();
     public static int idPCIncrement = 1;
     public static User used = null;
 
     public PCManager() throws IOException {
         pcList = readFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/pc.csv");
+
     }
 
     public PCManager(List<PC> pcList) {
@@ -127,9 +128,9 @@ public class PCManager implements IQLQN<PC> {
     public static void savePCFile(String path, List<PC> pcList) throws IOException {
         FileWriter fileWriter = new FileWriter(path);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        String str = "id, Price\n";
+        String str = "id, Price, UserName\n";
         for (PC p : pcList) {
-            str += p.getIdPC() + ", " + p.getPricePC() + "\n";
+            str += p.getIdPC() + ", " + p.getPricePC()+ "\n";
         }
         bufferedWriter.write(str);
         bufferedWriter.close();
@@ -138,6 +139,7 @@ public class PCManager implements IQLQN<PC> {
 
     public List<PC> readFile(String path) throws IOException {
         List<PC> list = new ArrayList<>();
+        UserManager userManager = new UserManager();
         FileReader fileReader = new FileReader(path);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         String line = bufferedReader.readLine();
@@ -145,6 +147,7 @@ public class PCManager implements IQLQN<PC> {
             String[] value = line.split(", ");
             int id = Integer.parseInt(value[0]);
             double price = Double.parseDouble(value[1]);
+
             PC pc = new PC(price);
             list.add(pc);
             pc.setIdPC(idPCIncrement);

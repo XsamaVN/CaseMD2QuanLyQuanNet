@@ -8,6 +8,7 @@ public class Invoice {
     private double buyPrice;
     private int pcId;
     private double pcPrice;
+    private double total;
     User user = null;
 
     public Invoice() {
@@ -21,6 +22,15 @@ public class Invoice {
         this.pcId = pcId;
         this.pcPrice = pcPrice;
         this.user = user;
+        this.total = playTime * pcPrice + buyPrice * buyQuantity;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public int getId() {
@@ -98,7 +108,7 @@ public class Invoice {
                 ", id máy= " + pcId +
                 ", Giá máy= " + pcPrice +
                 ", user= " + user.getUserName() +
-                ", Tổng= " + (buyQuantity*buyPrice + playTime*pcPrice) +
+                ", Tổng= " + total +
                 '}';
     }
 }
