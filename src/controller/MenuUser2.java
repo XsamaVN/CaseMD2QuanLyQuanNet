@@ -13,7 +13,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Scanner;
 
-public class MenuUser {
+public class MenuUser2 {
     public static void main(String[] args) throws IOException {
 
         UserManager userManager = new UserManager();
@@ -137,32 +137,15 @@ public class MenuUser {
                                                         break;
                                                     } else {
                                                         System.out.println("Liên hệ quản lý để nạp thêm tiền!!!");
-
                                                     }
-                                                    break;
+
                                                 default:
                                                     System.out.println("Nhập sai mời nhập lại");
-                                            }
-                                            LocalTime endTime1 = LocalTime.now();
-                                            Duration duration = Duration.between(startTime, endTime1);
-                                            int timeUsed1 = (int) duration.getSeconds();
-                                            if ((userCheck.getMoneyCharge() - timeUsed1 * invoice.getPcPrice()) <= 0) {
-                                                for (User u : userManager.getUserList()) {
-                                                    if (u.getUserName().equals(invoice.getUser().getUserName())) {
-                                                        u.setMoneyCharge(0);
-                                                        UserManager.saveUserFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/user.csv", userManager.getUserList());
-                                                        System.out.println("Bạn đã hết tiền");
-                                                        pcManager.getPcList().get(Integer.parseInt(choiceIdPC) - 1).setCheckStatus(false);
-                                                        PCManager.savePCFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/pc.csv", pcManager.getPcList());
-                                                        break;
-                                                    }
-                                                }
-
                                             }
                                         }
                                     }
                                 } else {
-
+                                    System.out.println(" ");
                                     break;
                                 }
                             }

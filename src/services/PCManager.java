@@ -107,13 +107,11 @@ public class PCManager implements IQLQN<PC> {
         if(index!= -1){
             if(pcList.get(index).getCheckStatus()){
                 System.out.println("máy đã có người sử dụng!!!");
-
                 return false;
             }
             else {
                 return true;
             }
-
         }else {
             return false;
         }
