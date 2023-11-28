@@ -35,11 +35,19 @@ public class InvoiceManager implements IQLQN<Invoice> {
 
     @Override
     public void delete(int idInvoice) throws IOException {
-        for (Invoice i : invoiceList) {
-            if (i.getId() == idInvoice) {
-                invoiceList.remove(i);
-                saveInvoicetFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/invoice.csv", invoiceList);
+        int index = -1;
+        for (int i = 0; i < invoiceList.size(); i++) {
+            if(invoiceList.get(i).getId() ==idInvoice){
+                index = i;
             }
+        }
+        if (index!= -1){
+            invoiceList.remove(index);
+            System.out.println("Xóa thành công hóa đơn id: "+ idInvoice);
+            saveInvoicetFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/invoice.csv", invoiceList);
+        }
+        else {
+            System.out.println("Không tìm thấy thông tin hóa đơn id: " + idInvoice);
         }
     }
 
@@ -78,11 +86,19 @@ public class InvoiceManager implements IQLQN<Invoice> {
     public static void saveInvoicetFile(String path, List<Invoice> invoiceList) throws IOException {
         FileWriter fileWriter = new FileWriter(path);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        StringBuilder str = new StringBuilder("id, giờ chơi, tên hàng hóa , số lượng, giá bán, ID máy chơi, giá máy, User name, Tổng hóa đơn\n");
+        String str = "id, giờ chơi, tên hàng hóa , số lượng, giá bán, ID máy chơi, giá máy, User name, Tổng hóa đơn\n";
         for (Invoice i : invoiceList) {
-            str.append(i.getId()).append(", ").append(i.getPlayTime()).append(", ").append(i.getBuyName()).append(", ").append(i.getBuyQuantity()).append(", ").append(i.getBuyPrice()).append(", ").append(i.getPcId()).append(", ").append(i.getPcPrice()).append(", ").append(i.getUser().getUserName()).append(", ").append(i.getTotal()).append("\n");
+            str +=  i.getId()
+                    + ", " + i.getPlayTime()
+                    + ", " + i.getBuyName()
+                    + ", " + i.getBuyQuantity()
+                    + ", " + i.getBuyPrice()
+                    + ", " + i.getPcId()
+                    + ", " + i.getPcPrice()
+                    + ", " + i.getUser().getUserName()
+                    + ", " + i.getTotal() + "\n";
         }
-        bufferedWriter.write(str.toString());
+        bufferedWriter.write(str);
         bufferedWriter.close();
         fileWriter.close();
     }
@@ -95,6 +111,7 @@ public class InvoiceManager implements IQLQN<Invoice> {
         String line = bufferedReader.readLine();
         while ((line = bufferedReader.readLine()) != null) {
             String[] value = line.split(", ");
+            int id = Integer.parseInt(value[0]);
             int time = Integer.parseInt(value[1]);
             String buyName = value[2];
             int buyQuantity = Integer.parseInt(value[3]);

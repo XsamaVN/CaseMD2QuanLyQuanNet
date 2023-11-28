@@ -108,13 +108,55 @@ public class PCManager implements IQLQN<PC> {
         }
     }
 
+    public void changeUser(User user, int id) throws IOException {
+        int index = -1;
+        for (int i = 0; i < pcList.size(); i++) {
+            if (pcList.get(i).getIdPC() == id) {
+                index = i;
+            }
+        }
+        if (index != -1) {
+            pcList.get(index).setUser(user);
+            PCManager.savePCFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/pc.csv", pcList);
+        }
+    }
+
+    public boolean checkStatus(int id) throws IOException {
+        int index = -1;
+        for (int i = 0; i < pcList.size(); i++) {
+            if (pcList.get(i).getIdPC() == id) {
+                index = i;
+            }
+        }
+        if(index!= -1){
+            if(pcList.get(index).getCheckStatus()){
+                System.out.println("máy đã có người sử dụng!!!");
+
+                return false;
+            }
+            else {
+                pcList.get(index).setCheckStatus(true);
+                PCManager.savePCFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/pc.csv", pcList);
+                return true;
+            }
+
+        }else {
+            return false;
+        }
+    }
+
     @Override
     public void showAll() {
         System.out.println("Danh sách máy: ");
         for (PC pc : pcList) {
-            System.out.println(pc);
+            if (pc.getCheckStatus()) {
+                System.out.println("id: " + pc.getIdPC() + ", price: " + pc.getPricePC() + " Trạng thái: Có người sử dụng.");
+            } else {
+                System.out.println("id: " + pc.getIdPC() + ", price: " + pc.getPricePC() + " Trạng thái: Còn trống, có thể sử dụng.");
+            }
         }
     }
+
 
     @Override
     public void findById(int id) {
@@ -130,7 +172,8 @@ public class PCManager implements IQLQN<PC> {
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         String str = "id, Price, UserName\n";
         for (PC p : pcList) {
-            str += p.getIdPC() + ", " + p.getPricePC()+ "\n";
+
+            str += p.getIdPC() + ", " + p.getPricePC() + ", " + p.getCheckStatus() + "\n";
         }
         bufferedWriter.write(str);
         bufferedWriter.close();
@@ -147,9 +190,10 @@ public class PCManager implements IQLQN<PC> {
             String[] value = line.split(", ");
             int id = Integer.parseInt(value[0]);
             double price = Double.parseDouble(value[1]);
-
+            boolean checkstatus = Boolean.parseBoolean(value[2]);
             PC pc = new PC(price);
             list.add(pc);
+            pc.setCheckStatus(checkstatus);
             pc.setIdPC(idPCIncrement);
             idPCIncrement++;
         }

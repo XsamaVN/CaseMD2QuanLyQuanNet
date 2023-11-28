@@ -1,12 +1,16 @@
 package models;
 
+import services.PCManager;
+
 public class PC {
     private int idPC;
     private double pricePC;
-    User user = null;
+    private boolean checkStatus;
+    User user =null;
 
     public PC(double pricePC) {
         this.pricePC = pricePC;
+        this.checkStatus = false;
     }
 
 
@@ -31,7 +35,21 @@ public class PC {
     }
 
     public void setUser(User user) {
-        this.user = user;
+        if (this.user!= null){
+            this.checkStatus=true;
+        }
+         else{
+             this.checkStatus=false;
+        }
+
+    }
+
+    public boolean getCheckStatus() {
+        return checkStatus;
+    }
+
+    public void setCheckStatus(boolean checkStatus) {
+        this.checkStatus = checkStatus;
     }
 
     @Override
@@ -39,7 +57,7 @@ public class PC {
         return "PC{" +
                 " Id = " + idPC +
                 ", Price = " + pricePC +
-                ", User = " + user+
+                ", Status = " + checkStatus+
                 '}';
     }
 }

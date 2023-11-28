@@ -20,8 +20,7 @@ public class UserManager implements IQLQN<User> {
     @Override
     public void addNew(User user) throws IOException {
         userList.add(user);
-        user.setId(idUserIncrement);
-        idUserIncrement++;
+        user.setId(idUserIncrement++);
         UserManager.saveUserFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/user.csv", userList);
     }
 
@@ -164,13 +163,13 @@ public class UserManager implements IQLQN<User> {
             }
             else {
                 System.out.println("Hết tiền rồi. Ra quầy nạp thêm nhé!!!!");
+                return false;
             }
         }
         else {
             System.out.println("Đăng nhập thất bại!!!");
             return false;
         }
-        return false;
     }
     public String getPassByName(String name){
         String pass = null;
@@ -217,13 +216,11 @@ public class UserManager implements IQLQN<User> {
     }
 
     public static boolean isInteger(String input) {
-
         try {
         Integer.parseInt(input);
             return true;
         } catch (NumberFormatException e) {
             System.out.println("nhập sai");
-
             return false;
         }
     }
