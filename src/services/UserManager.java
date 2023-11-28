@@ -167,7 +167,8 @@ public class UserManager implements IQLQN<User> {
             }
         }
         else {
-            System.out.println("Đăng nhập thất bại!!!");
+            System.out.println("Tài khoản không tồn tại. Đăng nhập thất bại!!!\n" +
+                    "Ra quầy gặp anh Long nhé :))");
             return false;
         }
     }

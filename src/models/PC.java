@@ -6,7 +6,6 @@ public class PC {
     private int idPC;
     private double pricePC;
     private boolean checkStatus;
-    User user =null;
 
     public PC(double pricePC) {
         this.pricePC = pricePC;
@@ -30,19 +29,6 @@ public class PC {
         this.pricePC = pricePC;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        if (this.user!= null){
-            this.checkStatus=true;
-        }
-         else{
-             this.checkStatus=false;
-        }
-
-    }
 
     public boolean getCheckStatus() {
         return checkStatus;

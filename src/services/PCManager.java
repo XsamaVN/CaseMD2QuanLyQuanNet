@@ -83,17 +83,6 @@ public class PCManager implements IQLQN<PC> {
         }
     }
 
-    public int findIndexById(int id) {
-        int index = -1;
-        for (int i = 0; i < pcList.size(); i++) {
-            if (pcList.get(i).getIdPC() == id) {
-                index = i;
-            }
-
-        }
-        return index;
-    }
-
     public boolean checkUsed(int id) {
         int index = -1;
         for (int i = 0; i < pcList.size(); i++) {
@@ -105,19 +94,6 @@ public class PCManager implements IQLQN<PC> {
             return true;
         } else {
             return false;
-        }
-    }
-
-    public void changeUser(User user, int id) throws IOException {
-        int index = -1;
-        for (int i = 0; i < pcList.size(); i++) {
-            if (pcList.get(i).getIdPC() == id) {
-                index = i;
-            }
-        }
-        if (index != -1) {
-            pcList.get(index).setUser(user);
-            PCManager.savePCFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/pc.csv", pcList);
         }
     }
 
@@ -135,8 +111,6 @@ public class PCManager implements IQLQN<PC> {
                 return false;
             }
             else {
-                pcList.get(index).setCheckStatus(true);
-                PCManager.savePCFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/pc.csv", pcList);
                 return true;
             }
 
