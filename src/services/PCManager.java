@@ -1,7 +1,6 @@
 package services;
 
 import models.PC;
-import models.User;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -11,31 +10,14 @@ import java.util.Scanner;
 public class PCManager implements IQLQN<PC> {
     List<PC> pcList = new ArrayList<>();
     public int idPCIncrement = 1;
-    public static User used = null;
 
     public PCManager() throws IOException {
         pcList = readFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/pc.csv");
 
     }
 
-    public PCManager(List<PC> pcList) {
-        this.pcList = pcList;
-    }
-
     public List<PC> getPcList() {
         return pcList;
-    }
-
-    public void setPcList(List<PC> pcList) {
-        this.pcList = pcList;
-    }
-
-    public static User getUsed() {
-        return used;
-    }
-
-    public static void setUsed(User used) {
-        PCManager.used = used;
     }
 
     @Override
@@ -141,11 +123,17 @@ public class PCManager implements IQLQN<PC> {
 
     public boolean checkDuplicate(String user) {
         boolean check = false;
-        for (int i = 0; i < pcList.size(); i++) {
+        int index = -1;
+        for (int i = 0; i < pcList.size(); i++)
             if (pcList.get(i).getUserNamePlay().equals(user)) {
-                System.out.println("Tài khoản đã có người sử dụng!!!");
-                check = true;
+                index = i;
             }
+        if(index!=-1){
+            System.out.println("Tài khoản đã có người sử dụng!!!");
+            check = true;
+        }
+        else {
+            check = false;
         }
         return check;
     }
@@ -164,7 +152,6 @@ public class PCManager implements IQLQN<PC> {
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         String str = "Id, Price, Status, Username\n";
         for (PC p : pcList) {
-
             str += p.getIdPC() + ", " + p.getPricePC() + ", " + p.getCheckStatus() + ", " + p.getUserNamePlay() + "\n";
         }
         bufferedWriter.write(str);

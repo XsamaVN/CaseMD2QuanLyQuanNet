@@ -127,7 +127,6 @@ public class MenuAdmin {
                                         pcManager.delete(idPcDelete);
                                         break;
                                     case "4":
-                                        System.out.println("Danh sách máy: ");
                                         pcManager.showAllAdmin();
                                         break;
                                     case "0":

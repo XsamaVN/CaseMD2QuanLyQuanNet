@@ -42,8 +42,8 @@ public class MenuUser {
                                 String user = word.nextLine();
                                 System.out.print("    Mật khẩu:   ");
                                 String password = word.nextLine();
-                                User userCheck = new User(user, password, userManager.getMoneyByName(user));
                                 if (!pcManager.checkDuplicate(user)) {
+                                User userCheck = new User(user, password, userManager.getMoneyByName(user));
                                     if (userManager.checkLogin(userCheck, pcManager.getPcList().get(Integer.parseInt(choiceIdPC) - 1).getPricePC())) {
                                         String choice = "-1";
                                         if (ProductManager.isInteger(choice)) {
@@ -136,11 +136,11 @@ public class MenuUser {
                                                             ProductManager.saveProductFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/product.csv", productManager.getProductList());
                                                             UserManager.saveUserFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/user.csv", userManager.getUserList());
                                                             pcManager.getPcList().get(Integer.parseInt(choiceIdPC) - 1).setCheckStatus(false);
-                                                            pcManager.getPcList().get(Integer.parseInt(choiceIdPC) - 1).setUserNamePlay(null);
+                                                            pcManager.getPcList().get(Integer.parseInt(choiceIdPC) - 1).setUserNamePlay("null");
                                                             PCManager.savePCFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/pc.csv", pcManager.getPcList());
                                                             break;
                                                         } else {
-                                                            System.out.println("Liên hệ quản lý để nạp thêm tiền!!!");
+                                                            System.out.println("Tìm anh Long để nạp thêm tiền!!!");
 
                                                         }
                                                         break;
@@ -148,8 +148,8 @@ public class MenuUser {
                                                         System.out.println("Nhập sai mời nhập lại");
                                                 }
                                                 LocalTime endTime1 = LocalTime.now();
-                                                Duration duration = Duration.between(startTime, endTime1);
-                                                int timeUsed1 = (int) duration.getSeconds();
+                                                Duration duration1 = Duration.between(startTime, endTime1);
+                                                int timeUsed1 = (int) duration1.getSeconds();
                                                 if ((userCheck.getMoneyCharge() - timeUsed1 * invoice.getPcPrice()) <= 0) {
                                                     for (User u : userManager.getUserList()) {
                                                         if (u.getUserName().equals(invoice.getUser().getUserName())) {
@@ -158,7 +158,7 @@ public class MenuUser {
                                                             System.out.println("Bạn đã hết tiền!!!\n" +
                                                                     "Ra quầy thanh toán tiền nợ trước khi bị anh Long xiên! :)");
                                                             pcManager.getPcList().get(Integer.parseInt(choiceIdPC) - 1).setCheckStatus(false);
-                                                            pcManager.getPcList().get(Integer.parseInt(choiceIdPC) - 1).setUserNamePlay(null);
+                                                            pcManager.getPcList().get(Integer.parseInt(choiceIdPC) - 1).setUserNamePlay("null");
                                                             PCManager.savePCFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/pc.csv", pcManager.getPcList());
                                                             break;
                                                         }
@@ -167,14 +167,16 @@ public class MenuUser {
                                                 }
                                             }
                                         }
-                                    } else {
-
+                                    }else {
                                         break;
                                     }
                                 }
                             }
                         }
                     }
+                }else {
+                    System.out.println("Chọn sai rồi. Chọn lại đi!!! :(");
+                    break;
                 }
             }
         }
