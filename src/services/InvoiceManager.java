@@ -9,7 +9,7 @@ import java.util.List;
 
 public class InvoiceManager implements IQLQN<Invoice> {
     List<Invoice> invoiceList = new ArrayList<>();
-    public static int idInvoiceIncrement = 1;
+    public int idInvoiceIncrement = 1;
 
     public InvoiceManager() throws IOException {
         invoiceList = readFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/invoice.csv");

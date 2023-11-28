@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class PCManager implements IQLQN<PC> {
     List<PC> pcList = new ArrayList<>();
-    public static int idPCIncrement = 1;
+    public int idPCIncrement = 1;
     public static User used = null;
 
     public PCManager() throws IOException {
@@ -104,15 +104,14 @@ public class PCManager implements IQLQN<PC> {
                 index = i;
             }
         }
-        if(index!= -1){
-            if(pcList.get(index).getCheckStatus()){
+        if (index != -1) {
+            if (pcList.get(index).getCheckStatus()) {
                 System.out.println("máy đã có người sử dụng!!!");
                 return false;
-            }
-            else {
+            } else {
                 return true;
             }
-        }else {
+        } else {
             return false;
         }
     }
@@ -129,6 +128,27 @@ public class PCManager implements IQLQN<PC> {
         }
     }
 
+    public void showAllAdmin() {
+        System.out.println("Danh sách máy: ");
+        for (PC pc : pcList) {
+            if (pc.getCheckStatus()) {
+                System.out.println("id: " + pc.getIdPC() + ", price: " + pc.getPricePC() + " Trạng thái: Có người sử dụng. UserName: " + pc.getUserNamePlay());
+            } else {
+                System.out.println("id: " + pc.getIdPC() + ", price: " + pc.getPricePC() + " Trạng thái: Còn trống, có thể sử dụng.");
+            }
+        }
+    }
+
+    public boolean checkDuplicate(String user) {
+        boolean check = false;
+        for (int i = 0; i < pcList.size(); i++) {
+            if (pcList.get(i).getUserNamePlay().equals(user)) {
+                System.out.println("Tài khoản đã có người sử dụng!!!");
+                check = true;
+            }
+        }
+        return check;
+    }
 
     @Override
     public void findById(int id) {
@@ -142,10 +162,10 @@ public class PCManager implements IQLQN<PC> {
     public static void savePCFile(String path, List<PC> pcList) throws IOException {
         FileWriter fileWriter = new FileWriter(path);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        String str = "id, Price, UserName\n";
+        String str = "Id, Price, Status, Username\n";
         for (PC p : pcList) {
 
-            str += p.getIdPC() + ", " + p.getPricePC() + ", " + p.getCheckStatus() + "\n";
+            str += p.getIdPC() + ", " + p.getPricePC() + ", " + p.getCheckStatus() + ", " + p.getUserNamePlay() + "\n";
         }
         bufferedWriter.write(str);
         bufferedWriter.close();
@@ -163,9 +183,11 @@ public class PCManager implements IQLQN<PC> {
             int id = Integer.parseInt(value[0]);
             double price = Double.parseDouble(value[1]);
             boolean checkstatus = Boolean.parseBoolean(value[2]);
+            String userName = value[3];
             PC pc = new PC(price);
             list.add(pc);
             pc.setCheckStatus(checkstatus);
+            pc.setUserNamePlay(userName);
             pc.setIdPC(idPCIncrement);
             idPCIncrement++;
         }

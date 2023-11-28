@@ -115,20 +115,20 @@ public class MenuAdmin {
                                         pcManager.addNew(new PC(price));
                                         break;
                                     case "2":
-                                        pcManager.showAll();
+                                        pcManager.showAllAdmin();
                                         System.out.println("Nhập vào id máy muốn sửa.");
                                         int idPcEdit = number.nextInt();
                                         pcManager.edit(idPcEdit);
                                         break;
                                     case "3":
-                                        pcManager.showAll();
+                                        pcManager.showAllAdmin();
                                         System.out.println("Nhập vào id máy muốn xóa.");
                                         int idPcDelete = number.nextInt();
                                         pcManager.delete(idPcDelete);
                                         break;
                                     case "4":
                                         System.out.println("Danh sách máy: ");
-                                        pcManager.showAll();
+                                        pcManager.showAllAdmin();
                                         break;
                                     case "0":
                                         break;

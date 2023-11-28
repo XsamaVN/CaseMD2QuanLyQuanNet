@@ -6,6 +6,7 @@ public class PC {
     private int idPC;
     private double pricePC;
     private boolean checkStatus;
+    String userNamePlay = null;
 
     public PC(double pricePC) {
         this.pricePC = pricePC;
@@ -38,12 +39,21 @@ public class PC {
         this.checkStatus = checkStatus;
     }
 
+    public String getUserNamePlay() {
+        return userNamePlay;
+    }
+
+    public void setUserNamePlay(String userNamePlay) {
+        this.userNamePlay = userNamePlay;
+    }
+
     @Override
     public String toString() {
         return "PC{" +
                 " Id = " + idPC +
                 ", Price = " + pricePC +
                 ", Status = " + checkStatus+
+                ", User = " + userNamePlay+
                 '}';
     }
 }

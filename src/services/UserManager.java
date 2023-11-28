@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class UserManager implements IQLQN<User> {
 
     List<User> userList;
-    public static int idUserIncrement = 1;
+    public int idUserIncrement = 1;
     public UserManager() throws IOException {
         userList = readFile("/Users/chiuchiuleuleu/Desktop/Project/MD2/QuanLyQuanNetBoDoi/src/data/user.csv");
 
@@ -207,8 +207,8 @@ public class UserManager implements IQLQN<User> {
             String password = value[2];
             double money = Double.parseDouble(value[3]);
             User user = new User(name, password, money);
-            list.add(user);
             user.setId(idUserIncrement);
+            list.add(user);
             idUserIncrement++;
         }
         bufferedReader.close();

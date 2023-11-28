@@ -1,7 +1,6 @@
-id, Price, UserName
-1, 1000.0, true
-2, 5000.0, false
-3, 2000.0, false
-4, 3000.0, false
-5, 4000.0, false
-6, 6000.0, false
+Id, Price, Status, Username
+1, 1000.0, false, null
+2, 2000.0, false, null
+3, 3000.0, false, null
+4, 4000.0, false, null
+5, 5000.0, false, null
