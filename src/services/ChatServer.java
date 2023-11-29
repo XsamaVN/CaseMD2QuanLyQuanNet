@@ -82,4 +82,33 @@ public class ChatServer {
         }
     }
 
+    public static double carculator(double startMoney, double count){
+
+        Thread deduction = new Thread(() -> {
+            double money = startMoney;
+            double countMoney = count;
+            while (money > 0) {
+                money -= countMoney;
+                try {
+                    Thread.sleep(1000);
+                    if (money <= 10000) {
+                        System.out.println("Tài khoản của bạn còn " + money);
+                        System.out.println("Đăng xuất sau: " + money/count);
+                        if(money <= 0){
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        deduction.start();
+        try {
+            deduction.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Đã hết tiền");
+        return 0;
+    }
 }

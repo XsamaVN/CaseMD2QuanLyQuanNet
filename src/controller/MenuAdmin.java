@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 
 public class MenuAdmin {
-    public static void main(String[] args) throws IOException {
+    public static void main() throws IOException {
         PCManager pcManager = new PCManager();
         UserManager userManager = new UserManager();
         ProductManager productManager = new ProductManager();
